@@ -604,6 +604,9 @@
                 <button class="batch-del" onclick="removeBatchItem(${item.id})">删除</button>
             </div>
         `).join('');
+
+        // 💡 核心优化：每次渲染明细或新增时，自动将列表滚动到最底部，确保最新输入的项一眼可见
+        container.scrollTop = container.scrollHeight;
     }
 
     function copyBatchTotal() {
@@ -647,8 +650,8 @@
         { id: 'p14', name: '杂项费用', icon: '📦', subItems: ['垃圾清运费', '清扫费', '杂费', '其他费用'] }
     ];
 
-    const STORAGE_KEY = 'wang_house_records_v13';
-    const BUDGET_KEY = 'wang_house_budget_v13';
+    const STORAGE_KEY = 'wang_house_records_v14';
+    const BUDGET_KEY = 'wang_house_budget_v14';
     const FUQING_LAT = 25.72;
     const FUQING_LON = 119.38;
 
