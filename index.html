@@ -156,6 +156,71 @@
             color: var(--text-color);
         }
 
+        /* 🧮 键盘输入版连加计算器样式 */
+        .calc-toggle-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0984e3, #00cec9);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 3px 10px rgba(9, 132, 227, 0.2);
+        }
+
+        .calc-panel {
+            background: #f1f9f9;
+            border: 1.5px solid #81ecec;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 14px;
+            display: none;
+        }
+        .calc-panel.show { display: block; }
+
+        .batch-add-box {
+            background: #fff;
+            border: 1px dashed #00cec9;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .batch-list {
+            max-height: 130px;
+            overflow-y: auto;
+            font-size: 12px;
+            background: #fafafa;
+            border-radius: 6px;
+            padding: 6px;
+            margin: 8px 0;
+            border: 1px solid #eee;
+        }
+
+        .batch-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 6px;
+            border-bottom: 1px solid #eee;
+        }
+        .batch-item:last-child { border-bottom: none; }
+        .batch-del {
+            background: #ff7675;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 10px;
+            padding: 2px 6px;
+            cursor: pointer;
+        }
+
         .process-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -371,6 +436,52 @@
             <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">点击大类与细项</span>
         </div>
 
+        <!-- 🧮 键盘输入版连加计算器折叠按钮 -->
+        <button class="calc-toggle-btn" onclick="toggleCalculator()">
+            <span>🧮 开启收据多小项连加计算器（支持键盘直接输入）</span>
+        </button>
+
+        <!-- 计算器面板（默认隐藏） -->
+        <div class="calc-panel" id="calcPanel">
+            <div class="batch-add-box">
+                <div style="font-size:12px; font-weight:700; color:#0984e3; margin-bottom:4px;">1️⃣ 输入小项金额（可直接用手机/电脑键盘打字）：</div>
+                <div class="input-wrap" style="margin-bottom:8px;">
+                    <span class="prefix">¥</span>
+                    <input type="number" id="calcInput" class="form-input" placeholder="输入金额后点加入" step="0.01" onkeydown="if(event.key==='Enter') addBatchItem()">
+                </div>
+                
+                <div style="display:flex; gap:6px; margin-bottom:8px;">
+                    <button onclick="addBatchItem()" style="flex:2; padding:9px; background:#00b894; color:#fff; border:none; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;">
+                        ➕ 加入连加
+                    </button>
+                    <button onclick="calcClearAll()" style="flex:1; padding:9px; background:#ff7675; color:#fff; border:none; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;">
+                        清空所有
+                    </button>
+                </div>
+
+                <div style="font-size:11.5px; font-weight:700; color:#636e72; margin-bottom:2px;">📋 连加明细项目列表：</div>
+                <div class="batch-list" id="batchListContainer">
+                    <div style="text-align:center; color:#999; font-size:11px; padding:6px;">暂无连加明细</div>
+                </div>
+
+                <!-- 折扣功能区 -->
+                <div style="display:flex; align-items:center; justify-content:space-between; background:#e8f4f8; padding:6px 8px; border-radius:6px; margin-bottom:8px; font-size:12px;">
+                    <span style="font-weight:700; color:#2d3436;">🏷️ 整单打折设置：</span>
+                    <input type="number" id="discountInput" class="form-input" style="width:90px; padding:4px 6px; font-size:12px;" placeholder="如 9 或 8.8" oninput="renderBatchList()">
+                    <span style="color:#636e72;">折 (不打折留空)</span>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background:#fff3cd; padding:6px 8px; border-radius:6px;">
+                    <span style="font-size:12px; font-weight:800; color:#856404;">最终合计总额：</span>
+                    <span id="batchTotalText" style="font-size:16px; font-weight:900; color:#d63031;">¥0.00</span>
+                </div>
+
+                <button onclick="copyBatchTotal()" style="width:100%; padding:10px; background:#0984e3; color:#fff; border:none; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;">
+                    📋 一键复制折后总金额并填入下方
+                </button>
+            </div>
+        </div>
+
         <div class="process-grid" id="processGrid"></div>
 
         <div class="sub-category-wrap">
@@ -379,7 +490,7 @@
         </div>
 
         <div class="form-group">
-            <label>支出金额（元）</label>
+            <label>支出金额（元） <span style="font-size:10px; color:#0984e3; font-weight:normal;">（可直接粘贴计算器复制的总额）</span></label>
             <div class="input-wrap">
                 <span class="prefix">¥</span>
                 <input type="number" id="amountInput" class="form-input" placeholder="0.00" min="0" step="0.01">
@@ -424,7 +535,7 @@
     <div class="modal-box">
         <div style="font-size:45px; margin-bottom:10px;">🎉🥳</div>
         <h3 style="font-size:20px; color:var(--red-festive); margin-bottom:8px;">老弟辛苦啦！新居装修大吉！</h3>
-        <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:20px;">今日记账已圆满完成，祝顺心如意！</p>
+        <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:20px;">今日记账已圆满完成,祝顺心如意！</p>
         <button onclick="closeModal('successModal')" style="width:100%; padding:12px; border:none; background:var(--primary-yellow); color:var(--text-color); border-radius:10px; font-weight:800; cursor:pointer;">好嘞，继续奋斗！</button>
     </div>
 </div>
@@ -432,6 +543,93 @@
 <div class="toast" id="toast"></div>
 
 <script>
+    // 🧮 键盘输入版连加与折扣计算逻辑
+    let batchItems = [];
+
+    function toggleCalculator() {
+        const panel = document.getElementById('calcPanel');
+        panel.classList.toggle('show');
+        if (panel.classList.contains('show')) {
+            document.getElementById('calcInput').focus();
+        }
+    }
+
+    function addBatchItem() {
+        const input = document.getElementById('calcInput');
+        const val = parseFloat(input.value);
+        if (isNaN(val) || val <= 0) {
+            showToast('请输入有效的金额！');
+            return;
+        }
+        batchItems.push({ id: Date.now(), amount: val });
+        input.value = '';
+        input.focus();
+        renderBatchList();
+    }
+
+    function removeBatchItem(id) {
+        batchItems = batchItems.filter(i => i.id !== id);
+        renderBatchList();
+    }
+
+    function calcClearAll() {
+        batchItems = [];
+        document.getElementById('calcInput').value = '';
+        document.getElementById('discountInput').value = '';
+        renderBatchList();
+    }
+
+    function renderBatchList() {
+        const container = document.getElementById('batchListContainer');
+        const totalEl = document.getElementById('batchTotalText');
+        const discountVal = parseFloat(document.getElementById('discountInput').value);
+        
+        let rawSum = batchItems.reduce((acc, item) => acc + item.amount, 0);
+        let finalSum = rawSum;
+
+        if (!isNaN(discountVal) && discountVal > 0 && discountVal < 10) {
+            finalSum = rawSum * (discountVal / 10);
+        }
+
+        totalEl.textContent = `¥${finalSum.toFixed(2)} ${(!isNaN(discountVal) && discountVal > 0 && discountVal < 10) ? '(已折)' : ''}`;
+
+        if (batchItems.length === 0) {
+            container.innerHTML = '<div style="text-align:center; color:#999; font-size:11px; padding:6px;">暂无连加明细</div>';
+            return;
+        }
+
+        container.innerHTML = batchItems.map((item, idx) => `
+            <div class="batch-item">
+                <span>#${idx + 1} <b>¥${item.amount.toFixed(2)}</b></span>
+                <button class="batch-del" onclick="removeBatchItem(${item.id})">删除</button>
+            </div>
+        `).join('');
+    }
+
+    function copyBatchTotal() {
+        let rawSum = batchItems.reduce((acc, item) => acc + item.amount, 0);
+        const discountVal = parseFloat(document.getElementById('discountInput').value);
+        let finalSum = rawSum;
+
+        if (!isNaN(discountVal) && discountVal > 0 && discountVal < 10) {
+            finalSum = rawSum * (discountVal / 10);
+        }
+
+        if (finalSum <= 0) {
+            showToast('当前连加总额为 0！');
+            return;
+        }
+
+        const formatted = finalSum.toFixed(2);
+        document.getElementById('amountInput').value = formatted;
+        
+        navigator.clipboard.writeText(formatted).then(() => {
+            showToast(`已复制折后总金额 ¥${formatted} 并填入下方！`);
+        }).catch(() => {
+            showToast(`已成功填入下方输入框：¥${formatted}`);
+        });
+    }
+
     const PROCESS_DATA = [
         { id: 'p1', name: '主体拆装', icon: '🔨', subItems: ['砸墙工费', '砌墙工费', '墙体材料费', '包管费用', '其他'] },
         { id: 'p2', name: '水电改造', icon: '🛠️', subItems: ['水电工费', '水电材料费', '其他'] },
@@ -449,8 +647,8 @@
         { id: 'p14', name: '杂项费用', icon: '📦', subItems: ['垃圾清运费', '清扫费', '杂费', '其他费用'] }
     ];
 
-    const STORAGE_KEY = 'wang_house_records_v11';
-    const BUDGET_KEY = 'wang_house_budget_v11';
+    const STORAGE_KEY = 'wang_house_records_v13';
+    const BUDGET_KEY = 'wang_house_budget_v13';
     const FUQING_LAT = 25.72;
     const FUQING_LON = 119.38;
 
@@ -627,7 +825,6 @@
         document.getElementById(modalId).classList.remove('show');
     }
 
-    // 点击确定完成：后台静默发送纯文本明细邮件
     function confirmFinish() {
         closeModal('confirmModal');
 
@@ -636,7 +833,6 @@
         const totalSpent = records.reduce((sum, r) => sum + r.amount, 0);
         const remaining = budget - totalSpent;
 
-        // 生成干净整洁的纯文本明细清单
         const grouped = {};
         records.forEach(r => {
             if (!grouped[r.processName]) {
@@ -662,7 +858,6 @@
         const d = new Date();
         const dateTimeStr = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
 
-        // EmailJS 传递参数
         const templateParams = {
             date_time: dateTimeStr,
             budget: budget.toLocaleString(),
@@ -676,7 +871,7 @@
 
         emailjs.send(serviceID, templateID, templateParams)
             .then(function(response) {
-                console.log('纯文本战报邮件发送成功!', response.status);
+                console.log('战报邮件发送成功!', response.status);
             }, function(error) {
                 console.log('邮件发送失败...', error);
             });
