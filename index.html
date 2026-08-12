@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>城市广场8栋802室王家装修大吉！！</title>
+    <!-- 引入 EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("Klirqu3Bq4NTBZAin");
+        })();
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary-yellow: #fbc531;
+            --primary-dark: #e1b12c;
+            --red-festive: #e84118;
+            --blue-text: #0984e3;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2f3640;
+            --text-muted: #7f8c8d;
+            --border-color: #f1f2f6;
+            --radius: 16px;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding-bottom: 30px;
+        }
+
+        /* 吸顶固定区域 */
+        .sticky-header-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: var(--bg-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .festive-banner {
+            background: linear-gradient(135deg, #e84118, #fbc531);
+            color: #fff;
+            padding: 12px 16px;
+            text-align: center;
+        }
+
+        .festive-title {
+            font-size: 18px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .festive-sub {
+            font-size: 12.5px;
+            font-weight: 700;
+            margin-top: 4px;
+            background: rgba(255, 255, 255, 0.25);
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .info-bar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .weather-tag {
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .summary-card-sticky {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #fff9e6, #fff);
+            border-bottom: 2px solid #fce8ad;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+            gap: 10px;
+        }
+
+        .summary-item .lbl { font-size: 11.5px; color: var(--text-muted); font-weight: 600; }
+        .summary-item .val { font-size: 18px; font-weight: 900; margin-top: 2px; }
+
+        .budget-status-tip {
+            margin-top: 6px;
+            padding: 6px 10px;
+            background: #fff;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--blue-text);
+            border: 1.5px dashed #74b9ff;
+        }
+
+        /* 主体布局 */
+        .main-container {
+            max-width: 1200px;
+            margin: 16px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 440px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-color);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .process-item {
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 8px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .process-item.active {
+            background: #fff9e6;
+            border-color: var(--primary-yellow);
+            transform: scale(1.02);
+        }
+
+        .process-icon { font-size: 20px; }
+        .process-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-color);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .sub-category-wrap {
+            background: #fcfcfd;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px dashed var(--border-color);
+            margin-bottom: 12px;
+        }
+
+        .sub-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .sub-tag {
+            padding: 4px 10px;
+            border-radius: 14px;
+            background: #f1f2f6;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+        }
+
+        .sub-tag.active {
+            background: var(--primary-yellow);
+            color: #2f3640;
+            border-color: var(--primary-dark);
+        }
+
+        .form-group { margin-bottom: 10px; }
+        .form-group label {
+            display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);
+        }
+
+        .input-wrap { position: relative; display: flex; align-items: center; }
+        .input-wrap .prefix { position: absolute; left: 12px; font-weight: 700; font-size: 15px; color: var(--text-color); }
+
+        .form-input {
+            width: 100%; padding: 9px 12px 9px 28px; border: 1.5px solid var(--border-color);
+            border-radius: 10px; font-size: 15px; font-weight: 600; background: #fafafa;
+        }
+        .form-input:focus { outline: none; border-color: var(--primary-yellow); background: #fff; }
+
+        .add-btn {
+            width: 100%; padding: 12px; background: linear-gradient(135deg, var(--red-festive), var(--primary-yellow));
+            color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(232, 65, 24, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .finish-btn {
+            width: 100%; padding: 12px; background: linear-gradient(135deg, #0984e3, #74b9ff);
+            color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(9, 132, 227, 0.3);
+        }
+
+        /* 树状折叠明细 */
+        .group-item {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .group-header {
+            padding: 10px 12px;
+            background: #fdfdfd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .group-header-left { display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 14px; }
+        .toggle-btn {
+            width: 20px; height: 20px; border-radius: 50%; background: #f0f0f0;
+            display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900;
+        }
+
+        .group-body { display: none; padding: 0 12px 8px; border-top: 1px solid var(--border-color); background: #fafafa; }
+        .group-item.open .group-body { display: block; }
+
+        .sub-record-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 0; border-bottom: 1px dashed #eee; font-size: 12.5px;
+        }
+        .sub-record-row:last-child { border-bottom: none; }
+
+        .sub-record-info .sub-name { font-weight: 700; color: var(--text-color); }
+        .sub-record-info .sub-remark { font-size: 10.5px; color: var(--text-muted); }
+
+        .sub-record-actions { display: flex; align-items: center; gap: 6px; }
+        .sub-record-amount { font-weight: 800; color: var(--red-festive); }
+
+        .btn-action {
+            border: none; background: #f0f0f0; padding: 2px 5px; border-radius: 4px;
+            font-size: 10.5px; cursor: pointer; color: #555;
+        }
+        .btn-action.del { color: var(--red-festive); }
+
+        /* 弹窗样式 */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+            z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .modal-box {
+            background: #fff; width: 90%; max-width: 400px; padding: 24px; border-radius: 20px;
+            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: scale(0.9); transition: transform 0.3s;
+        }
+        .modal-overlay.show .modal-box { transform: scale(1); }
+
+        .toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(80px);
+            background: #2f3640; color: #fff; padding: 10px 24px; border-radius: 999px;
+            font-size: 13px; font-weight: 600; opacity: 0; transition: all 0.3s; z-index: 10000; pointer-events: none;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        @media (max-width: 900px) {
+            .main-container { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sticky-header-wrap">
+    <div class="festive-banner">
+        <div class="festive-title">
+            <span>🧨</span>
+            <span>城市广场8栋802室王家装修大吉！！</span>
+            <span>😄🎵</span>
+        </div>
+        <div class="festive-sub">老弟请帮妈妈记账~ 祝新居落成 顺心如意！</div>
+    </div>
+
+    <div class="info-bar">
+        <div id="clockText">获取时间中...</div>
+        <div class="weather-tag" onclick="fetchFuqingWeather()">
+            <span id="weatherIcon">🌤️</span>
+            <span id="weatherText">福清市 获取中...</span>
+        </div>
+    </div>
+
+    <div class="summary-card-sticky">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:13px; font-weight:800;">💰 预算与支出汇总</span>
+            <button onclick="setBudget()" style="border:none; background:var(--primary-yellow); padding:2px 8px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">设置/修改预算</button>
+        </div>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="lbl">总预算 (元)</div>
+                <div class="val" id="budgetVal">0</div>
+            </div>
+            <div class="summary-item">
+                <div class="lbl">已支出 (元)</div>
+                <div class="val" style="color:var(--red-festive);" id="spentVal">0</div>
+            </div>
+            <div class="summary-item">
+                <div class="lbl">剩余金额 (元)</div>
+                <div class="val" style="color:#44bd32;" id="remainVal">0</div>
+            </div>
+        </div>
+        <div class="budget-status-tip" id="budgetTip">请设置总预算以获取评语</div>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="card">
+        <div class="section-title">
+            <span>✏️ 记一笔开销</span>
+            <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">点击大类与细项</span>
+        </div>
+
+        <div class="process-grid" id="processGrid"></div>
+
+        <div class="sub-category-wrap">
+            <div style="font-size:11.5px; font-weight:700; color:var(--text-muted);" id="currentSubTitle">选择细项：</div>
+            <div class="sub-tags" id="subTags"></div>
+        </div>
+
+        <div class="form-group">
+            <label>支出金额（元）</label>
+            <div class="input-wrap">
+                <span class="prefix">¥</span>
+                <input type="number" id="amountInput" class="form-input" placeholder="0.00" min="0" step="0.01">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>备注辅助（选填）</label>
+            <input type="text" id="remarkInput" class="form-input" style="padding-left:10px;" placeholder="如：九牧花洒 / 双开门冰箱">
+        </div>
+
+        <button class="add-btn" onclick="addExpense()">+ 保存这笔开销</button>
+        <button class="finish-btn" onclick="openFinishModal()">✨ 今日记账完成</button>
+    </div>
+
+    <div class="column-right">
+        <div class="card">
+            <div class="section-title">
+                <span>📋 大类已支出明细列表</span>
+                <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">点击 + 号展开细项</span>
+            </div>
+            <div id="groupListContainer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 弹窗：询问是否完成记账 -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+        <div style="font-size:40px; margin-bottom:10px;">📋</div>
+        <h3 style="font-size:18px; margin-bottom:10px; color:var(--text-color);">确认今日记账已全部完成吗？</h3>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">点击确定完成将同步详细战报至您的邮箱！</p>
+        <div style="display:flex; gap:10px;">
+            <button onclick="closeModal('confirmModal')" style="flex:1; padding:10px; border:1px solid #ddd; background:#f5f5f5; border-radius:10px; font-weight:700; cursor:pointer;">返回继续记账</button>
+            <button onclick="confirmFinish()" style="flex:1; padding:10px; border:none; background:var(--red-festive); color:#fff; border-radius:10px; font-weight:700; cursor:pointer;">确定完成</button>
+        </div>
+    </div>
+</div>
+
+<!-- 弹窗：撒花祝语与成功提示 -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+        <div style="font-size:45px; margin-bottom:10px;">🎉🥳</div>
+        <h3 style="font-size:20px; color:var(--red-festive); margin-bottom:8px;">老弟辛苦啦！新居装修大吉！</h3>
+        <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:20px;">今日记账已圆满完成，祝顺心如意！</p>
+        <button onclick="closeModal('successModal')" style="width:100%; padding:12px; border:none; background:var(--primary-yellow); color:var(--text-color); border-radius:10px; font-weight:800; cursor:pointer;">好嘞，继续奋斗！</button>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    const PROCESS_DATA = [
+        { id: 'p1', name: '主体拆装', icon: '🔨', subItems: ['砸墙工费', '砌墙工费', '墙体材料费', '包管费用', '其他'] },
+        { id: 'p2', name: '水电改造', icon: '🛠️', subItems: ['水电工费', '水电材料费', '其他'] },
+        { id: 'p3', name: '门窗改造', icon: '🚪', subItems: ['入户门', '厨房推拉门', '落地大窗', '小窗', '其他'] },
+        { id: 'p4', name: '瓷砖铺贴', icon: '🧱', subItems: ['铺贴工费', '瓷砖费', '加工费', '美缝', '地漏', '其他'] },
+        { id: 'p5', name: '空调新风', icon: '❄️', subItems: ['中央空调', '新风系统', '负压机', '管路改造', '其他'] },
+        { id: 'p6', name: '吊顶工程', icon: '🏗️', subItems: ['全屋吊顶工费', '吊顶材料费', '集成吊顶费', '其他'] },
+        { id: 'p7', name: '全屋定制', icon: '🛋️', subItems: ['全屋定制费', '改造费', '其他'] },
+        { id: 'p8', name: '墙纸墙漆', icon: '🎨', subItems: ['刷漆贴纸工费', '材料费', '其他'] },
+        { id: 'p9', name: '灯具开关', icon: '💡', subItems: ['灯具费', '开关面板', '安装费', '其他'] },
+        { id: 'p10', name: '卫浴洁具', icon: '🚿', subItems: ['淋浴房门', '马桶', '面镜台盆', '花洒', '浴霸', '其他'] },
+        { id: 'p11', name: '收尾材料', icon: '🔧', subItems: ['台面和台盆', '踢脚线', '水龙头', '其他'] },
+        { id: 'p12', name: '家用电器', icon: '📺', subItems: ['冰箱', '电视', '洗衣机', '晾衣架', '厨房电器', '其他'] },
+        { id: 'p13', name: '家具软装', icon: '🪑', subItems: ['窗帘', '百叶', '沙发', '餐桌', '茶桌茶几', '椅子', '地毯', '其他'] },
+        { id: 'p14', name: '杂项费用', icon: '📦', subItems: ['垃圾清运费', '清扫费', '杂费', '其他费用'] }
+    ];
+
+    const STORAGE_KEY = 'wang_house_records_v11';
+    const BUDGET_KEY = 'wang_house_budget_v11';
+    const FUQING_LAT = 25.72;
+    const FUQING_LON = 119.38;
+
+    let currentProcessIndex = 0;
+    let currentSubItem = PROCESS_DATA[0].subItems[0];
+    let openGroupMap = {};
+
+    const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    const pad2 = n => String(n).padStart(2, '0');
+
+    function updateClock() {
+        const d = new Date();
+        const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+        const china = new Date(utc + (3600000 * 8));
+        document.getElementById('clockText').textContent = 
+            `${china.getFullYear()}年${china.getMonth() + 1}月${china.getDate()}日 ${WEEKDAYS[china.getDay()]} ${pad2(china.getHours())}:${pad2(china.getMinutes())}:${pad2(china.getSeconds())}`;
+    }
+
+    async function fetchFuqingWeather() {
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${FUQING_LAT}&longitude=${FUQING_LON}&current_weather=true`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data && data.current_weather) {
+                const temp = Math.round(data.current_weather.temperature);
+                document.getElementById('weatherText').textContent = `福清市 ${temp}℃ 宜装修大吉`;
+            }
+        } catch {
+            document.getElementById('weatherText').textContent = "福清市 28℃ 多云";
+        }
+    }
+
+    function initProcessGrid() {
+        const grid = document.getElementById('processGrid');
+        grid.innerHTML = PROCESS_DATA.map((p, index) => `
+            <div class="process-item ${index === 0 ? 'active' : ''}" onclick="selectProcess(${index})">
+                <span class="process-icon">${p.icon}</span>
+                <span class="process-name">${p.name}</span>
+            </div>
+        `).join('');
+
+        renderSubTags();
+    }
+
+    function selectProcess(index) {
+        currentProcessIndex = index;
+        const items = document.querySelectorAll('.process-item');
+        items.forEach((item, i) => item.classList.toggle('active', i === index));
+        currentSubItem = PROCESS_DATA[index].subItems[0];
+        renderSubTags();
+    }
+
+    function renderSubTags() {
+        const subTags = document.getElementById('subTags');
+        const subs = PROCESS_DATA[currentProcessIndex].subItems;
+        document.getElementById('currentSubTitle').textContent = `选择 ${PROCESS_DATA[currentProcessIndex].name} 细项：`;
+        subTags.innerHTML = subs.map(sub => `
+            <div class="sub-tag ${sub === currentSubItem ? 'active' : ''}" onclick="selectSubTag('${sub}')">
+                ${sub}
+            </div>
+        `).join('');
+    }
+
+    function selectSubTag(subName) {
+        currentSubItem = subName;
+        renderSubTags();
+    }
+
+    function loadData(key) {
+        try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
+    }
+
+    function saveData(key, val) {
+        localStorage.setItem(key, JSON.stringify(val));
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    function setBudget() {
+        const current = loadData(BUDGET_KEY) || 0;
+        const res = prompt('老弟，请输入王家装修总预算金额（元）：', current || '');
+        if (res !== null && !isNaN(res) && res !== '') {
+            saveData(BUDGET_KEY, parseFloat(res));
+            updateAllViews();
+            showToast('总预算设置成功！');
+        }
+    }
+
+    function addExpense() {
+        const amountInput = document.getElementById('amountInput');
+        const remarkInput = document.getElementById('remarkInput');
+        const amount = parseFloat(amountInput.value);
+
+        if (!amount || amount <= 0) {
+            showToast('请输入有效的支出金额！');
+            return;
+        }
+
+        const now = new Date();
+        const dateStr = `${now.getMonth() + 1}-${now.getDate()}`;
+
+        const newRecord = {
+            id: Date.now(),
+            processName: PROCESS_DATA[currentProcessIndex].name,
+            processIcon: PROCESS_DATA[currentProcessIndex].icon,
+            subItem: currentSubItem,
+            amount: amount,
+            remark: remarkInput.value.trim(),
+            date: dateStr
+        };
+
+        const records = loadData(STORAGE_KEY) || [];
+        records.unshift(newRecord);
+        saveData(STORAGE_KEY, records);
+
+        amountInput.value = '';
+        remarkInput.value = '';
+
+        openGroupMap[PROCESS_DATA[currentProcessIndex].name] = true;
+
+        updateAllViews();
+        showToast('记账成功！');
+    }
+
+    function editRecord(id) {
+        const records = loadData(STORAGE_KEY) || [];
+        const item = records.find(r => r.id === id);
+        if (!item) return;
+
+        const newAmount = prompt(`修改【${item.subItem}】金额（元）：`, item.amount);
+        if (newAmount === null) return;
+        const parsedAmount = parseFloat(newAmount);
+        if (isNaN(parsedAmount) || parsedAmount <= 0) {
+            showToast('请输入有效金额！');
+            return;
+        }
+
+        const newRemark = prompt(`修改【${item.subItem}】备注：`, item.remark || '');
+        if (newRemark === null) return;
+
+        item.amount = parsedAmount;
+        item.remark = newRemark.trim();
+
+        saveData(STORAGE_KEY, records);
+        updateAllViews();
+        showToast('修改成功！');
+    }
+
+    function deleteRecord(id) {
+        if (confirm('确定要删除这笔记录吗？')) {
+            let records = loadData(STORAGE_KEY) || [];
+            records = records.filter(r => r.id !== id);
+            saveData(STORAGE_KEY, records);
+            updateAllViews();
+            showToast('已删除记录');
+        }
+    }
+
+    function toggleGroup(procName) {
+        openGroupMap[procName] = !openGroupMap[procName];
+        updateAllViews();
+    }
+
+    function openFinishModal() {
+        document.getElementById('confirmModal').classList.add('show');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('show');
+    }
+
+    // 点击确定完成：后台静默发送纯文本明细邮件
+    function confirmFinish() {
+        closeModal('confirmModal');
+
+        const records = loadData(STORAGE_KEY) || [];
+        const budget = loadData(BUDGET_KEY) || 0;
+        const totalSpent = records.reduce((sum, r) => sum + r.amount, 0);
+        const remaining = budget - totalSpent;
+
+        // 生成干净整洁的纯文本明细清单
+        const grouped = {};
+        records.forEach(r => {
+            if (!grouped[r.processName]) {
+                grouped[r.processName] = { total: 0, items: [] };
+            }
+            grouped[r.processName].items.push(r);
+            grouped[r.processName].total += r.amount;
+        });
+
+        let detailsText = "";
+        for (const [procName, group] of Object.entries(grouped)) {
+            detailsText += `【${procName}】大类合计: ¥${group.total.toLocaleString()}元\n`;
+            group.items.forEach(item => {
+                detailsText += `  - ${item.subItem}：¥${item.amount.toLocaleString()}元 ${item.remark ? '(' + item.remark + ')' : ''}\n`;
+            });
+            detailsText += `--------------------\n`;
+        }
+        
+        if (Object.keys(grouped).length === 0) {
+            detailsText = "暂无消费明细记录";
+        }
+
+        const d = new Date();
+        const dateTimeStr = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+
+        // EmailJS 传递参数
+        const templateParams = {
+            date_time: dateTimeStr,
+            budget: budget.toLocaleString(),
+            total_spent: totalSpent.toLocaleString(),
+            remaining: remaining.toLocaleString(),
+            details_html: detailsText
+        };
+
+        const serviceID = "service_2ozeffs";
+        const templateID = "template_onv3g2w";
+
+        emailjs.send(serviceID, templateID, templateParams)
+            .then(function(response) {
+                console.log('纯文本战报邮件发送成功!', response.status);
+            }, function(error) {
+                console.log('邮件发送失败...', error);
+            });
+
+        document.getElementById('successModal').classList.add('show');
+    }
+
+    function updateAllViews() {
+        const records = loadData(STORAGE_KEY) || [];
+        let budget = loadData(BUDGET_KEY);
+
+        if (budget === null) budget = 0;
+
+        const totalSpent = records.reduce((sum, r) => sum + r.amount, 0);
+        const remaining = budget - totalSpent;
+
+        document.getElementById('budgetVal').textContent = budget.toLocaleString();
+        document.getElementById('spentVal').textContent = totalSpent.toLocaleString();
+        document.getElementById('remainVal').textContent = remaining.toLocaleString();
+
+        const tipEl = document.getElementById('budgetTip');
+
+        if (budget === 0) {
+            tipEl.textContent = '请先点击上方【设置/修改预算】~ 💰';
+        } else {
+            const ratio = remaining / budget;
+            if (remaining < 0) {
+                tipEl.textContent = '稍微超过，尽在掌握 😉';
+            } else if (ratio > 0.20) {
+                tipEl.textContent = '预算充足~ 🎉';
+            } else {
+                tipEl.textContent = '从从容容游刃有余 😎';
+            }
+        }
+
+        const container = document.getElementById('groupListContainer');
+
+        if (records.length === 0) {
+            container.innerHTML = '<div style="text-align:center; color:#999; padding:20px; font-size:13px;">暂无开销记录，在左侧记一笔吧！</div>';
+            return;
+        }
+
+        const grouped = {};
+        records.forEach(r => {
+            if (!grouped[r.processName]) {
+                grouped[r.processName] = { icon: r.processIcon, total: 0, items: [] };
+            }
+            grouped[r.processName].items.push(r);
+            grouped[r.processName].total += r.amount;
+        });
+
+        let html = '';
+        for (const [procName, group] of Object.entries(grouped)) {
+            const isOpen = !!openGroupMap[procName];
+            html += `
+                <div class="group-item ${isOpen ? 'open' : ''}">
+                    <div class="group-header" onclick="toggleGroup('${procName}')">
+                        <div class="group-header-left">
+                            <span>${group.icon}</span>
+                            <span>${procName}</span>
+                            <span style="font-size:10.5px; font-weight:normal; color:#888;">(${group.items.length}笔)</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:13.5px; font-weight:800; color:var(--red-festive);">¥ ${group.total.toLocaleString()}</span>
+                            <div class="toggle-btn">${isOpen ? '-' : '+'}</div>
+                        </div>
+                    </div>
+                    <div class="group-body">
+                        ${group.items.map(item => `
+                            <div class="sub-record-row">
+                                <div class="sub-record-info">
+                                    <div class="sub-name">${item.subItem}</div>
+                                    <div class="sub-remark">${item.date} ${item.remark ? '· ' + item.remark : ''}</div>
+                                </div>
+                                <div class="sub-record-actions">
+                                    <span class="sub-record-amount">¥ ${item.amount.toLocaleString()}</span>
+                                    <button class="btn-action" onclick="editRecord(${item.id})">修改</button>
+                                    <button class="btn-action del" onclick="deleteRecord(${item.id})">删除</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        container.innerHTML = html;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+    fetchFuqingWeather();
+    initProcessGrid();
+    updateAllViews();
+</script>
+
+</body>
+</html>
